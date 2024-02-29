@@ -29,4 +29,7 @@ build/*
 
 #ide
 .idea
+
+#gradle
 .gradle
+settings.gradle
