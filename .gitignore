@@ -28,4 +28,4 @@ build/*
 
 #ide
 .idea/*
-./.gradle
+.gradle
