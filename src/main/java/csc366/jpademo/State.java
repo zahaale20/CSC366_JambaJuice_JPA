@@ -23,84 +23,88 @@ public class State {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    private String street;   // note: no annotation, still included in underlying table
-    private String city;
-    private String state;
-    private String zipCode;
+    private String name;   // note: no annotation, still included in underlying table
+    private Double salesTax;
+    private String abbreviation;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_id", nullable = true)
-    private Person person;
-    
-    public Address() { }
-    
-    public Address(String street, String city, String state, String zipCode) {
-	this.street = street;
-	this.city = city;
-	this.state = state;
-	this.zipCode = zipCode;
-    }
-    
-    public Long getId() {
-	return id;
-    }
-    public void setId(Long id) {
-	this.id = id;
-    }
-    
-    public String getStreet() {
-	return street;
-    }
-    public void setStreet(String street) {
-	this.street = street;
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "person_id", nullable = true)
+    //private Person person;
+
+    public State() { }
+
+    public State(String name, Double salesTax, String abbreviation) {
+        this.name = name;
+        this.salesTax = salesTax;
+        this.abbreviation = abbreviation;
     }
 
-    public String getCity() {
-	return city;
-    }
-    public void setCity(String city) {
-	this.city = city;
-    }
-
-    public String getState() {
-	return state;
-    }
-    public void setState(String state) {
-	this.state = state;
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "State{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", salesTax=" + salesTax +
+                ", abbreviation='" + abbreviation + '\'' +
+                '}';
     }
 
-    public String getZipCode() {
-	return zipCode;
-    }
-    public void setZipCode(String zipCode) {
-	this.zipCode = zipCode;
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        if (!super.equals(object)) return false;
+
+        State state = (State) object;
+
+        if (!id.equals(state.id)) return false;
+        if (name != null ? !name.equals(state.name) : state.name != null) return false;
+        if (salesTax != null ? !salesTax.equals(state.salesTax) : state.salesTax != null) return false;
+        if (abbreviation != null ? !abbreviation.equals(state.abbreviation) : state.abbreviation != null) return false;
+
+        return true;
     }
 
-    public Person getPerson() {
-	return person;
-    }
-    public void setPerson(Person person) {
-	this.person = person;
-    }
-        
-    @Override
-    public String toString()
-    {
-	StringJoiner sj = new StringJoiner("," , Address.class.getSimpleName() + "[" , "]");
-	sj.add(id.toString()).add(street).add(city).add(state).add(zipCode);
-	return sj.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-	if (this == o) return true;
-	if (!(o instanceof Address)) return false;
-	return id != null && id.equals(((Address) o).getId());
-    }
-
-    @Override
     public int hashCode() {
-	return 366;
+        int result = super.hashCode();
+        result = 31 * result + id.hashCode();
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (salesTax != null ? salesTax.hashCode() : 0);
+        result = 31 * result + (abbreviation != null ? abbreviation.hashCode() : 0);
+        return result;
     }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getSalesTax() {
+        return salesTax;
+    }
+
+    public void setSalesTax(Double salesTax) {
+        this.salesTax = salesTax;
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
+    }
+
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
+    }
+
+
     
+
 }
