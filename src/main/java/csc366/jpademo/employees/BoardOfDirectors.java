@@ -2,12 +2,20 @@ package csc366.jpademo.employees;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class BoardOfDirectors {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardID;
+
+    @OneToMany(mappedBy = "boardOfDirectors", fetch = FetchType.EAGER) // Changed to EAGER fetching
+    private Set<Owner> owners = new HashSet<>();
+
+    @OneToMany(mappedBy = "boardOfDirectors", fetch = FetchType.EAGER) // Changed to EAGER fetching
+    private Set<Director> directors = new HashSet<>();
 
     @Column(name = "board_name", nullable = false)
     private String boardName;
@@ -20,7 +28,6 @@ public class BoardOfDirectors {
     @Column(name = "date_end", nullable = true)
     private Date dateEnd;
 
-    // Getters
     public Long getBoardID() {
         return boardID;
     }
@@ -52,4 +59,10 @@ public class BoardOfDirectors {
     public void setDateEnd(Date dateEnd) {
         this.dateEnd = dateEnd;
     }
+
+    public Set<Owner> getOwners() { return owners; }
+    public void setOwners(Set<Owner> owners) { this.owners = owners; }
+
+    public Set<Director> getDirectors() { return directors; }
+    public void setDirectors(Set<Director> directors) { this.directors = directors; }
 }

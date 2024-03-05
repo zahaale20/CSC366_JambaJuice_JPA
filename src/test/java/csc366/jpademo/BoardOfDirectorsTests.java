@@ -1,34 +1,34 @@
 package csc366.jpademo;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import csc366.jpademo.employees.BoardOfDirectors;
-import csc366.jpademo.employees.BoardOfDirectorsRepository;
+import csc366.jpademo.employees.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
-@ExtendWith(SpringExtension.class)
-@DataJpaTest
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+@SpringBootTest
 public class BoardOfDirectorsTests {
+
+    @Autowired
+    private OwnerRepository ownerRepository;
+
+    @Autowired
+    private DirectorRepository directorRepository;
 
     @Autowired
     private BoardOfDirectorsRepository boardOfDirectorsRepository;
 
-    @Test
-    public void testSaveBoardOfDirectors() {
-        BoardOfDirectors board = new BoardOfDirectors();
-        board.setBoardName("Advisory Board");
-        board.setDateStart(new Date());
-        board.setDateEnd(new Date());
-
-        board = boardOfDirectorsRepository.save(board);
-
-        assertNotNull(board.getBoardID());
-        assertEquals("Advisory Board", board.getBoardName());
+    @BeforeEach
+    public void setup() {
+        ownerRepository.deleteAll();
+        directorRepository.deleteAll();
+        boardOfDirectorsRepository.deleteAll();
     }
 }

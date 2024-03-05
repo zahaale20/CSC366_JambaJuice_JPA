@@ -13,6 +13,10 @@ public class Owner extends Employee {
     @Column(name = "ownership_percentage", nullable = true)
     private Double ownershipPercentage;
 
+    @ManyToOne
+    @JoinColumn(name = "board_id", nullable = true)
+    private BoardOfDirectors boardOfDirectors;
+
     public Owner(String firstName, String middleName, String lastName, String phoneNumber, String email, String jobTitle, Date dateStart, Date dateEnd, Employee supervisor, String employmentType, Date dateOfBirth, String SSN, Double salary, String gender, String ethnicity, Double ownershipPercentage) {
         super(firstName, middleName, lastName, phoneNumber, email, jobTitle, dateStart, dateEnd, supervisor, employmentType, dateOfBirth, SSN, salary, gender, ethnicity);
     }
@@ -25,4 +29,6 @@ public class Owner extends Employee {
         this.ownershipPercentage = ownershipPercentage;
     }
 
+    public void setBoardOfDirectors(BoardOfDirectors board) {
+    }
 }
