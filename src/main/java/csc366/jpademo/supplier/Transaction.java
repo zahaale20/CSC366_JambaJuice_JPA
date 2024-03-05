@@ -26,8 +26,7 @@ public class Transaction {
             targetEntity = SupplyContract.class,
             mappedBy = "supply_contract",
             cascade = CascadeType.REMOVE,
-            fetch = FetchType.LAZY,
-            optional = false
+            fetch = FetchType.LAZY
     )
     private SupplyContract supplyContract;
 
@@ -106,6 +105,36 @@ public class Transaction {
 
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public void addIngredient(Ingredient ingredient) {
+        this.ingredients.add(ingredient);
+        ingredient.addTransaction(this);
+    }
+
+    public void removeIngredient(Ingredient ingredient) {
+        this.ingredients.remove(ingredient);
+        ingredient.removeTransaction(this);
+    }
+
+    public void addSupplier(Supplier supplier) {
+        supplier.addTransaction(this);
+        this.supplier = supplier;
+    }
+
+    public void removeSupplier(Supplier supplier) {
+        supplier.removeTransaction(this);
+        this.supplier = null;
+    }
+
+    public void addSupplyContract(SupplyContract supplyContract) {
+        this.supplyContract = supplyContract;
+        supplyContract.addTransaction(this);
+    }
+
+    public void removeSupplyContract(SupplyContract supplyContract) {
+        this.supplyContract = null;
+        supplyContract.removeTransaction(this);
     }
 
     // TODO: Link Transaction to DrinkVariation table

@@ -80,6 +80,16 @@ public class Ingredient {
         this.description = description;
     }
 
+    public void addTransaction(Transaction transaction) {
+        transactions.add(transaction);
+        transaction.addIngredient(this);
+    }
+
+    public void removeTransaction(Transaction transaction) {
+        transactions.remove(transaction);
+        transaction.removeIngredient(this);
+    }
+
     @Override
     public String toString() {
         StringJoiner sj = new StringJoiner("," , Ingredient.class.getSimpleName() + "[" , "]");

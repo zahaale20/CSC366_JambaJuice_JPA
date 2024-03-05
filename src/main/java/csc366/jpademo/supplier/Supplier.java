@@ -50,7 +50,16 @@ public class Supplier {
     )
     private List<SupplyContract> supplyContracts = new ArrayList<>();
 
-    public Supplier() { }
+    @OneToMany(
+            targetEntity = Transaction.class,
+            mappedBy = "transaction",       // join column should be in *Address*
+            cascade = CascadeType.ALL, // all JPA actions (persist, remove, refresh, merge, detach) propagate to each address
+            orphanRemoval = true,      // address records that are no longer attached to a person are removed
+            fetch = FetchType.LAZY
+    )
+    private List<Transaction> transactions = new ArrayList<>();
+
+    public Supplier() {}
 
     public Supplier(String firstName, String lastName, String phone, String email) {
         this.firstName = firstName;
@@ -93,6 +102,26 @@ public class Supplier {
 
     public String getPhone(String phone) {
         return this.phone;
+    }
+
+    public void addTransaction(Transaction transaction) {
+        transactions.add(transaction);
+        transaction.setSupplier(this);
+    }
+
+    public void removeTransaction(Transaction transaction) {
+        transactions.remove(transaction);
+        transaction.setSupplier(null);
+    }
+
+    public void addSupplyContract(SupplyContract supplyContract) {
+        supplyContracts.add(supplyContract);
+        supplyContract.setSupplier(null);
+    }
+
+    public void removeSupplyContract(SupplyContract supplyContract) {
+        supplyContracts.remove(supplyContract);
+        supplyContract.setSupplier(this);
     }
 
     // TODO: Link Supplier to State table

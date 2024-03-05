@@ -1,11 +1,7 @@
 package csc366.jpademo.supplier;
 
-import csc366.jpademo.Address;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringJoiner;
 
 @Entity  // indicates that this class maps to a database table
@@ -31,6 +27,12 @@ public class SupplyContract {
             fetch = FetchType.LAZY
     )
     private Supplier supplier;
+
+    @OneToOne(
+            targetEntity = Transaction.class,
+            cascade = CascadeType.REMOVE
+    )
+    private Transaction transaction;
 
     // TODO: Link Supplier to SupplyReceiptRow assocation class
 //    @ManyToMany(
@@ -77,6 +79,26 @@ public class SupplyContract {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void addSupplier(Supplier supplier) {
+        supplier.addSupplyContract(this);
+        this.supplier = supplier;
+    }
+
+    public void removeSupplier(Supplier supplier) {
+        supplier.removeSupplyContract(this);
+        this.supplier = null;
+    }
+
+    public void addTransaction(Transaction transaction) {
+        transaction.setSupplyContract(this);
+        this.transaction = transaction;
+    }
+
+    public void removeTransaction(Transaction transaction) {
+        transaction.setSupplier(null);
+        this.transaction = null;
     }
 
     // TODO: Link Supplier to SupplyReceiptRow assocation class
