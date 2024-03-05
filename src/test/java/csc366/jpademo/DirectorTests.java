@@ -25,8 +25,8 @@ public class DirectorTests {
 
     @BeforeEach
     public void setup() {
-        director = new Director("Boss", "Big", "Baby", "1234567890", "bossbaby@ceo.com", "Owner", new Date(), null, null, "Full-time", new Date(), "123-45-6789", 100000.00, "Male", "Not Specified", "Chief Executive Officer");
-        directorRepository.deleteAll(); // Ensure database is clean before each test
+        director = new Director("Boss", "Big", "Baby", "1234567890", "bossbaby@ceo.com", "Owner", new Date(), null, null, "Full-time", new Date(), "123-45-6789", 100000.00, "Male", "Not Specified", "Chief Executive Officer", null);
+        directorRepository.deleteAll();
     }
 
     @Test

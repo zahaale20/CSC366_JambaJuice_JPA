@@ -15,6 +15,8 @@ public interface EmployeeRepository extends JpaRepository<csc366.jpademo.employe
 
     csc366.jpademo.employees.Employee findByEmail(String email);
 
+    List<Employee> findByEmploymentType(String employmentType);
+
     @Query("SELECT e FROM Employee e WHERE e.firstName = :name OR e.lastName = :name")
     List<csc366.jpademo.employees.Employee> findByNameJpql(@Param("name") String name);
 
@@ -23,9 +25,6 @@ public interface EmployeeRepository extends JpaRepository<csc366.jpademo.employe
 
     @Query("SELECT e FROM Employee e WHERE e.supervisor.employeeID = :supervisorId")
     List<csc366.jpademo.employees.Employee> findBySupervisorId(@Param("supervisorId") Long supervisorId);
-
-    @Query(value = "SELECT * FROM employee WHERE email = :email", nativeQuery = true)
-    csc366.jpademo.employees.Employee findByEmailNative(@Param("email") String email);
 
     @Modifying
     @Transactional

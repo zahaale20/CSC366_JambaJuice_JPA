@@ -25,8 +25,7 @@ public class OwnerTests {
 
     @BeforeEach
     public void setup() {
-        owner = new Owner("Billy", "Edward", "Goat", "555-555-5555", "billygoat@email.com", "Dish Washer", new Date(), null, null, "Full-Time", new Date(), "123-45-6789", 10000000000.00, "Male", "White", 10.0);
-        // Ensure the database is empty before each test
+        owner = new Owner("Billy", "Edward", "Goat", "555-555-5555", "billygoat@email.com", "Dish Washer", new Date(), null, null, "Full-Time", new Date(), "123-45-6789", 10000000000.00, "Male", "White", 10.0, null);
         ownerRepository.deleteAll();
     }
 
@@ -65,4 +64,34 @@ public class OwnerTests {
 
         assertFalse(ownerRepository.findById(id).isPresent());
     }
+
+    @Test
+    public void testOwnerWithoutOwnershipPercentage() {
+        owner.setOwnershipPercentage(null);
+        Owner savedOwner = ownerRepository.save(owner);
+
+        Owner foundOwner = ownerRepository.findById(savedOwner.getEmployeeID()).orElse(null);
+        assertNotNull(foundOwner);
+        assertNull(foundOwner.getOwnershipPercentage(), "Ownership percentage should be null.");
+    }
+
+    @Test
+    public void testOwnerWithOwnershipPercentage() {
+        owner.setOwnershipPercentage(11.1);
+        Owner savedOwner = ownerRepository.save(owner);
+        Owner foundOwner = ownerRepository.findById(savedOwner.getEmployeeID()).orElse(null);
+        assertEquals(foundOwner.getOwnershipPercentage(), 11.1);
+    }
+
+    @Test
+    public void testUpdateOwnershipPercentage() {
+        Owner savedOwner = ownerRepository.save(owner);
+        savedOwner.setOwnershipPercentage(15.0);
+        ownerRepository.save(savedOwner);
+
+        Owner updatedOwner = ownerRepository.findById(savedOwner.getEmployeeID()).orElse(null);
+        assertNotNull(updatedOwner);
+        assertEquals(15.0, updatedOwner.getOwnershipPercentage(), "Ownership percentage should be updated to 15.0");
+    }
+
 }

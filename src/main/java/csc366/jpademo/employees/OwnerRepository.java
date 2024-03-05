@@ -9,10 +9,8 @@ import java.util.List;
 
 @Repository
 public interface OwnerRepository extends JpaRepository<Owner, Long> {
-    Owner findByOwnershipPercentageGreaterThan(Double percentage);
 
     @Query("SELECT o FROM Owner o WHERE o.salary > :salary")
     List<Owner> findOwnersWithSalaryGreaterThan(@Param("salary") Double salary);
 
-    Owner findByEmail(String email);
 }
