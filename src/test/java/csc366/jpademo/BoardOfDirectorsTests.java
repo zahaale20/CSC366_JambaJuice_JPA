@@ -72,7 +72,7 @@ public class BoardOfDirectorsTests {
         Set<Owner> directors2 = board.getOwners();
 
         assertTrue(owners2.contains(owner));
-        assertTrue(owners2.contains(director));
+        assertTrue(directors2.contains(director));
     }
 
 }
