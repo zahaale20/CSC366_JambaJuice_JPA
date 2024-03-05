@@ -13,7 +13,7 @@ public class Leave {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employeeID", nullable = false)
-    private csc366.jpademo.Employee employee;
+    private csc366.jpademo.employees.Employee employee;
 
     @Column(nullable = false)
     private String type;
@@ -34,7 +34,7 @@ public class Leave {
 
     public Leave() {}
 
-    public Leave(csc366.jpademo.Employee employee, String type, Date startDate, Date endDate, String approvalStatus, String reason) {
+    public Leave(csc366.jpademo.employees.Employee employee, String type, Date startDate, Date endDate, String approvalStatus, String reason) {
         this.employee = employee;
         this.type = type;
         this.startDate = startDate;
@@ -52,11 +52,11 @@ public class Leave {
         this.leaveID = leaveID;
     }
 
-    public csc366.jpademo.Employee getEmployee() {
+    public csc366.jpademo.employees.Employee getEmployee() {
         return employee;
     }
 
-    public void setEmployee(csc366.jpademo.Employee employee) {
+    public void setEmployee(csc366.jpademo.employees.Employee employee) {
         this.employee = employee;
     }
 

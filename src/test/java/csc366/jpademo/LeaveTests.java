@@ -27,14 +27,14 @@ public class LeaveTests {
     private LeaveRepository leaveRepository;
 
     @Autowired
-    private csc366.jpademo.EmployeeRepository employeeRepository;
+    private csc366.jpademo.employees.EmployeeRepository employeeRepository;
 
-    private csc366.jpademo.Employee employee;
+    private csc366.jpademo.employees.Employee employee;
     private Leave leave;
 
     @BeforeEach
     public void setup() {
-        employee = new csc366.jpademo.Employee("Jane", "Q.", "Public", "555-123-4567", "jpublic@example.com", "Developer", new Date(), null, null, "Full-Time", new Date(), "987-65-4321", 70000.00, "Female", "Not Specified");
+        employee = new csc366.jpademo.employees.Employee("Jane", "Q.", "Public", "555-123-4567", "jpublic@example.com", "Developer", new Date(), null, null, "Full-Time", new Date(), "987-65-4321", 70000.00, "Female", "Not Specified");
         employeeRepository.saveAndFlush(employee);
 
         leave = new Leave(employee, "Annual", new Date(), new Date(), "Pending", "Family vacation");

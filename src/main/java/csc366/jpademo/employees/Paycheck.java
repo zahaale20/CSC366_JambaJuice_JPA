@@ -13,7 +13,7 @@ public class Paycheck {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employeeID", nullable = false)
-    private csc366.jpademo.Employee employee;
+    private csc366.jpademo.employees.Employee employee;
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
@@ -30,7 +30,7 @@ public class Paycheck {
 
     public Paycheck() {}
 
-    public Paycheck(csc366.jpademo.Employee employee, Date date, Double wage, Double hours, Double tax) {
+    public Paycheck(csc366.jpademo.employees.Employee employee, Date date, Double wage, Double hours, Double tax) {
         this.employee = employee;
         this.date = date;
         this.wage = wage;
@@ -48,11 +48,11 @@ public class Paycheck {
         this.paycheckID = paycheckID;
     }
 
-    public csc366.jpademo.Employee getEmployee() {
+    public csc366.jpademo.employees.Employee getEmployee() {
         return employee;
     }
 
-    public void setEmployee(csc366.jpademo.Employee employee) {
+    public void setEmployee(csc366.jpademo.employees.Employee employee) {
         this.employee = employee;
     }
 

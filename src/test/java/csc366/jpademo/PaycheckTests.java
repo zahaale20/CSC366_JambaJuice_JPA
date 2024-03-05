@@ -47,14 +47,14 @@ public class PaycheckTests {
     private PaycheckRepository paycheckRepository;
 
     @Autowired
-    private csc366.jpademo.EmployeeRepository employeeRepository;
+    private csc366.jpademo.employees.EmployeeRepository employeeRepository;
 
-    private csc366.jpademo.Employee employee;
+    private csc366.jpademo.employees.Employee employee;
     private Paycheck paycheck;
 
     @BeforeEach
     public void setup() {
-        employee = new csc366.jpademo.Employee("John", "Edward", "Doe", "555-555-5555", "jdoe@example.com", "Manager", new Date(), null, null, "Full-Time", new Date(), "123-45-6789", 60000.00, "Male", "Caucasian");
+        employee = new csc366.jpademo.employees.Employee("John", "Edward", "Doe", "555-555-5555", "jdoe@example.com", "Manager", new Date(), null, null, "Full-Time", new Date(), "123-45-6789", 60000.00, "Male", "Caucasian");
         employeeRepository.saveAndFlush(employee);
 
         Date paycheckDate = new Date(System.currentTimeMillis() - (1000 * 60 * 60 * 24)); // 1 day ago

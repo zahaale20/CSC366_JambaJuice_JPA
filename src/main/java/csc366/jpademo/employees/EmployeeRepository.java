@@ -1,4 +1,4 @@
-package csc366.jpademo;
+package csc366.jpademo.employees;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,21 +11,21 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<csc366.jpademo.Employee, Long> {
+public interface EmployeeRepository extends JpaRepository<csc366.jpademo.employees.Employee, Long> {
 
-    csc366.jpademo.Employee findByEmail(String email);
+    csc366.jpademo.employees.Employee findByEmail(String email);
 
     @Query("SELECT e FROM Employee e WHERE e.firstName = :name OR e.lastName = :name")
-    List<csc366.jpademo.Employee> findByNameJpql(@Param("name") String name);
+    List<csc366.jpademo.employees.Employee> findByNameJpql(@Param("name") String name);
 
     @Query("SELECT e FROM Employee e WHERE e.jobTitle = :jobTitle")
-    List<csc366.jpademo.Employee> findByJobTitleJpql(@Param("jobTitle") String jobTitle);
+    List<csc366.jpademo.employees.Employee> findByJobTitleJpql(@Param("jobTitle") String jobTitle);
 
     @Query("SELECT e FROM Employee e WHERE e.supervisor.employeeID = :supervisorId")
-    List<csc366.jpademo.Employee> findBySupervisorId(@Param("supervisorId") Long supervisorId);
+    List<csc366.jpademo.employees.Employee> findBySupervisorId(@Param("supervisorId") Long supervisorId);
 
     @Query(value = "SELECT * FROM employee WHERE email = :email", nativeQuery = true)
-    csc366.jpademo.Employee findByEmailNative(@Param("email") String email);
+    csc366.jpademo.employees.Employee findByEmailNative(@Param("email") String email);
 
     @Modifying
     @Transactional

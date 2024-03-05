@@ -41,9 +41,9 @@ public class EmployeeTests {
     private final static Logger log = LoggerFactory.getLogger(EmployeeTests.class);
 
     @Autowired
-    private csc366.jpademo.EmployeeRepository employeeRepository;
+    private csc366.jpademo.employees.EmployeeRepository employeeRepository;
 
-    private final csc366.jpademo.Employee employee = new csc366.jpademo.Employee("Billy", "Edward", "Goat", "555-555-5555", "billygoat@email.com", "Dish Washer", new Date(), null, null, "Full-Time", new Date(), "123-45-6789", 10000.00, "Male", "White");
+    private final csc366.jpademo.employees.Employee employee = new csc366.jpademo.employees.Employee("Billy", "Edward", "Goat", "555-555-5555", "billygoat@email.com", "Dish Washer", new Date(), null, null, "Full-Time", new Date(), "123-45-6789", 10000.00, "Male", "White");
 
     @BeforeEach
     public void setup() {
@@ -53,7 +53,7 @@ public class EmployeeTests {
     @Test
     @Order(1)
     public void testSaveEmployee() {
-        csc366.jpademo.Employee found = employeeRepository.findByEmail("billygoat@email.com");
+        csc366.jpademo.employees.Employee found = employeeRepository.findByEmail("billygoat@email.com");
         log.info(found.toString());
 
         assertNotNull(found);
@@ -63,7 +63,7 @@ public class EmployeeTests {
     @Test
     @Order(2)
     public void testFindEmployeeByEmail() {
-        csc366.jpademo.Employee found = employeeRepository.findByEmail("billygoat@email.com");
+        csc366.jpademo.employees.Employee found = employeeRepository.findByEmail("billygoat@email.com");
         assertNotNull(found);
         assertEquals(employee.getEmail(), found.getEmail());
     }
@@ -84,7 +84,7 @@ public class EmployeeTests {
     @Test
     @Order(5)
     public void testDeleteByEmployeeId() {
-        csc366.jpademo.Employee e = employeeRepository.findByEmail("billygoat@email.com");
+        csc366.jpademo.employees.Employee e = employeeRepository.findByEmail("billygoat@email.com");
         employeeRepository.deleteById(e.getEmployeeID());
         employeeRepository.flush();
     }
@@ -92,7 +92,7 @@ public class EmployeeTests {
     @Test
     @Order(6)
     public void testFindByNameJpql() {
-        List<csc366.jpademo.Employee> employees = employeeRepository.findByNameJpql("Billy");
+        List<csc366.jpademo.employees.Employee> employees = employeeRepository.findByNameJpql("Billy");
         assertNotNull(employees);
         assertFalse(employees.isEmpty());
         assertEquals("Billy", employees.get(0).getFirstName());
@@ -101,7 +101,7 @@ public class EmployeeTests {
     @Test
     @Order(7)
     public void testFindByJobTitleJpql() {
-        List<csc366.jpademo.Employee> employees = employeeRepository.findByJobTitleJpql("Dish Washer");
+        List<csc366.jpademo.employees.Employee> employees = employeeRepository.findByJobTitleJpql("Dish Washer");
         assertNotNull(employees);
         assertFalse(employees.isEmpty());
         assertTrue(employees.stream().allMatch(e -> e.getJobTitle().equals("Dish Washer")));
@@ -109,12 +109,12 @@ public class EmployeeTests {
 
     @Test
     public void testFindBySupervisorId() {
-        csc366.jpademo.Employee supervisor = new csc366.jpademo.Employee("Joe", "Seph", "Sanders", "555-666-7777", "jos@email.com", "Turtle sitter", new Date(), null, null, "Full-Time", new Date(), "987-65-4321", 80000.00, "Alien", "Alien");
+        csc366.jpademo.employees.Employee supervisor = new csc366.jpademo.employees.Employee("Joe", "Seph", "Sanders", "555-666-7777", "jos@email.com", "Turtle sitter", new Date(), null, null, "Full-Time", new Date(), "987-65-4321", 80000.00, "Alien", "Alien");
         employee.setSupervisor(supervisor);
         employeeRepository.saveAndFlush(supervisor);
         employeeRepository.saveAndFlush(employee);
 
-        List<csc366.jpademo.Employee> supervisees = employeeRepository.findBySupervisorId(supervisor.getEmployeeID());
+        List<csc366.jpademo.employees.Employee> supervisees = employeeRepository.findBySupervisorId(supervisor.getEmployeeID());
         assertNotNull(supervisees);
         assertFalse(supervisees.isEmpty());
         assertTrue(supervisees.contains(employee));
@@ -124,7 +124,7 @@ public class EmployeeTests {
     public void testDeleteByEmail() {
         employeeRepository.deleteByEmail("jdoe@email.com");
         employeeRepository.flush();
-        csc366.jpademo.Employee found = employeeRepository.findByEmail("jdoe@email.com");
+        csc366.jpademo.employees.Employee found = employeeRepository.findByEmail("jdoe@email.com");
         assertNull(found);
     }
 

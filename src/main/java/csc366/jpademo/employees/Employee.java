@@ -1,4 +1,4 @@
-package csc366.jpademo;
+package csc366.jpademo.employees;
 
 import javax.persistence.*;
 import java.util.ArrayList;
