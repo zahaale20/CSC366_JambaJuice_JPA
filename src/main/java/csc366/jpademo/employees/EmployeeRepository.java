@@ -36,4 +36,5 @@ public interface EmployeeRepository extends JpaRepository<csc366.jpademo.employe
     @Query("DELETE FROM Employee e WHERE e.email = :email")
     void deleteByEmail(@Param("email") String email);
 
+    Employee findBySSN(String s);
 }

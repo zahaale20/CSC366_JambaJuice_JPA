@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -64,4 +65,14 @@ public class BoardOfDirectorsTests {
         assertNotNull(foundBoard);
         assertEquals(board.getBoardName(), foundBoard.getBoardName());
     }
+
+    @Test
+    public void testBDMembers() {
+        Set<Owner> owners2 = board.getOwners();
+        Set<Owner> directors2 = board.getOwners();
+
+        assertTrue(owners2.contains(owner));
+        assertTrue(owners2.contains(director));
+    }
+
 }

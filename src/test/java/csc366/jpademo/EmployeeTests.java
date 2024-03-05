@@ -3,6 +3,7 @@ package csc366.jpademo;
 import java.util.Date;
 import java.util.List;
 
+import csc366.jpademo.employees.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Order;
@@ -49,6 +50,26 @@ public class EmployeeTests {
     @BeforeEach
     public void setup() {
         employeeRepository.saveAndFlush(employee);
+    }
+
+    @Test
+    public void testEmployee() {
+        Employee employee2 = employeeRepository.findBySSN("123-45-6789");
+
+        log.info(employee2.toString());
+
+        assertNotNull(employee);
+        assertEquals(employee2.getFirstName(), employee.getFirstName());
+        assertEquals(employee2.getMiddleName(), employee.getMiddleName());
+        assertEquals(employee2.getLastName(), employee.getLastName());
+        assertEquals(employee2.getPhoneNumber(), employee.getPhoneNumber());
+        assertEquals(employee2.getEmail(), employee.getEmail());
+        assertEquals(employee2.getJobTitle(), employee.getJobTitle());
+        assertEquals(employee2.getEmploymentType(), employee.getEmploymentType());
+        assertEquals(employee2.getSSN(), employee.getSSN());
+        assertEquals(employee2.getSalary(), employee.getSalary());
+        assertEquals(employee2.getGender(), employee.getGender());
+        assertEquals(employee2.getEthnicity(), employee.getEthnicity());
     }
 
     @Test
