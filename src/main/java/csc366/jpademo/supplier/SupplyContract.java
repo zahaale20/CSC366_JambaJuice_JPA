@@ -99,8 +99,8 @@ public class SupplyContract {
     }
 
     public void removeTransaction(Transaction transaction) {
-        transaction.setSupplier(null);
         this.transaction = null;
+        transaction.setSupplier(null);
     }
 
     public Transaction getTransaction() {

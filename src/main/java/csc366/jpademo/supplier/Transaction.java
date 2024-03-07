@@ -141,8 +141,8 @@ public class Transaction {
     }
 
     public void removeSupplyContract(SupplyContract supplyContract) {
-        this.supplyContract = null;
         supplyContract.removeTransaction(this);
+        this.supplyContract = null;
     }
 
     // TODO: Link Transaction to DrinkVariation table
