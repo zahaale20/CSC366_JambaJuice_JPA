@@ -11,7 +11,10 @@ import org.springframework.stereotype.Repository;
 public interface TransactionRepository extends JpaRepository<Transaction, Long>{
     Transaction findById(String id);
 
-    @Modifying
-    @Query("update Transaction t set t.numCase = :newCase where t.numCase = :oldCase")
-    void updateCost(@Param("oldCost") double oldCase, @Param("newCost") double newCase);
+    @Query("from Transaction s where s.supplier.firstName = :name or s.supplier.lastName = :name")
+    Transaction findBySupplierName(@Param("name") String name);
+
+//    @Modifying
+//    @Query("update Transaction t set t.numCase = :newCase where t.numCase = :oldCase")
+//    void updateCost(@Param("oldCost") double oldCase, @Param("newCost") double newCase);
 }

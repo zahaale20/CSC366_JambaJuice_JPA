@@ -13,8 +13,8 @@ public interface SupplierRepository extends JpaRepository<Supplier, Long>{
     @Query("from Supplier s where s.firstName = :name or s.lastName = :name")
     Supplier findByNameJpql(@Param("name") String name);
 
-    @Query("select s from Supplier s join s.phone phone where s.firstName = :name or s.lastName = :name")
-    Supplier findByNameWithPhoneJpql(@Param("name") String name);
+//    @Query("select s from Supplier s join s.phone phone where s.firstName = :name or s.lastName = :name")
+//    Supplier findByNameWithPhoneJpql(@Param("name") String name);
 
     @Modifying
     @Query("update Supplier s set s.firstName = :newName where s.firstName = :oldName")

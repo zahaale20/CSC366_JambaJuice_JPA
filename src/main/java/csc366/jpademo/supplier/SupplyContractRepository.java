@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-// This class will be automatically implemented by Spring and made available as a "Bean" named personRepository
 @Repository
 public interface SupplyContractRepository extends JpaRepository<SupplyContract, Long>{
     SupplyContract findById(String id);
+
+    @Query("from SupplyContract s where s.supplier.firstName = :name or s.supplier.lastName = :name")
+    SupplyContract findBySupplierName(@Param("name") String name);
 
     @Modifying
     @Query("update SupplyContract sc set sc.cost = :newCost where sc.cost = :oldCost")
