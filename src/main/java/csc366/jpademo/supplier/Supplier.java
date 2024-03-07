@@ -116,12 +116,12 @@ public class Supplier {
 
     public void addSupplyContract(SupplyContract supplyContract) {
         supplyContracts.add(supplyContract);
-        supplyContract.setSupplier(null);
+        supplyContract.setSupplier(this);
     }
 
     public void removeSupplyContract(SupplyContract supplyContract) {
         supplyContracts.remove(supplyContract);
-        supplyContract.setSupplier(this);
+        supplyContract.setSupplier(null);
     }
 
     public List<Transaction> getTransactions() {
