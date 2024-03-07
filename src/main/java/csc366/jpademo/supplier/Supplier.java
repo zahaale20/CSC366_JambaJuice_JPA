@@ -145,7 +145,7 @@ public class Supplier {
     public String toString() {
         // TODO: Add new relations here
         StringJoiner sj = new StringJoiner("," , Supplier.class.getSimpleName() + "[" , "]");
-        sj.add(id.toString()).add(firstName).add(lastName).add(phone).add(email).add("supplyContracts=" + supplyContracts.toString());
+        sj.add(id.toString()).add(firstName).add(lastName).add(phone).add(email);
         return sj.toString();
     }
 
