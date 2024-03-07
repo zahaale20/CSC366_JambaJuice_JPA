@@ -103,6 +103,10 @@ public class SupplyContract {
         this.transaction = null;
     }
 
+    public Transaction getTransaction() {
+        return this.transaction;
+    }
+
     // TODO: Link Supplier to SupplyReceiptRow assocation class
 //    public List<SupplyReceiptRow> getSupplyReceiptRows() {
 //        return supplyReceiptRows;
@@ -116,7 +120,7 @@ public class SupplyContract {
     public String toString() {
         // TODO: Add new relations here
         StringJoiner sj = new StringJoiner(",", SupplyContract.class.getSimpleName() + "[", "]");
-        sj.add(id.toString()).add(String.valueOf(cost)).add(description).add(supplier.toString());
+        sj.add(id.toString()).add(String.valueOf(cost)).add(description).add(String.valueOf(supplier));
         return sj.toString();
     }
 
