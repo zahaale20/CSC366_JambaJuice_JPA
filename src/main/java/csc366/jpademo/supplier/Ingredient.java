@@ -81,18 +81,26 @@ public class Ingredient {
 
     public void addTransaction(Transaction transaction) {
         transactions.add(transaction);
-        transaction.addIngredient(this);
+        transaction.addNonRecursiveIngredient(this);
+    }
+
+    public void addNonRecursiveTransaction(Transaction transaction) {
+        transactions.add(transaction);
     }
 
     public void removeTransaction(Transaction transaction) {
         transactions.remove(transaction);
-        transaction.removeIngredient(this);
+        transaction.removeNonRecursiveIngredient(this);
+    }
+
+    public void removeNonRecursiveTransaction(Transaction transaction) {
+        transactions.remove(transaction);
     }
 
     @Override
     public String toString() {
         StringJoiner sj = new StringJoiner("," , Ingredient.class.getSimpleName() + "[" , "]");
-        sj.add(id.toString()).add(name).add(String.valueOf(numUnit)).add(description).add("transactions="+transactions.toString());
+        sj.add(id.toString()).add(name).add(String.valueOf(numUnit)).add(String.valueOf(description));
         return sj.toString();
     }
 

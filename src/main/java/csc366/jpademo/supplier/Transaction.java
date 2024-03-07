@@ -109,12 +109,20 @@ public class Transaction {
 
     public void addIngredient(Ingredient ingredient) {
         this.ingredients.add(ingredient);
-        ingredient.addTransaction(this);
+        ingredient.addNonRecursiveTransaction(this);
+    }
+
+    public void addNonRecursiveIngredient(Ingredient ingredient) {
+        this.ingredients.add(ingredient);
     }
 
     public void removeIngredient(Ingredient ingredient) {
         this.ingredients.remove(ingredient);
-        ingredient.removeTransaction(this);
+        ingredient.removeNonRecursiveTransaction(this);
+    }
+
+    public void removeNonRecursiveIngredient(Ingredient ingredient) {
+        this.ingredients.remove(ingredient);
     }
 
     public void addSupplier(Supplier supplier) {
@@ -150,7 +158,7 @@ public class Transaction {
     public String toString() {
         // TODO: Add new relations here
         StringJoiner sj = new StringJoiner("," , SupplyContract.class.getSimpleName() + "[" , "]");
-        sj.add(id.toString()).add(String.valueOf(numCase)).add(notes).add(supplyContract.toString()).add(supplier.toString()).add("ingredients="+ingredients.toString());
+        sj.add(id.toString()).add(String.valueOf(numCase)).add(notes).add(String.valueOf(supplyContract)).add(String.valueOf(supplier)).add("ingredients="+String.valueOf(ingredients));
         return sj.toString();
     }
 
