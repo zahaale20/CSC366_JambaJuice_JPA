@@ -43,7 +43,7 @@ public class Supplier {
 
     @OneToMany(
             targetEntity = SupplyContract.class,
-            mappedBy = "supply_contract",       // join column should be in *Address*
+            mappedBy = "supplier",       // join column should be in *Address*
             cascade = CascadeType.ALL, // all JPA actions (persist, remove, refresh, merge, detach) propagate to each address
             orphanRemoval = true,      // address records that are no longer attached to a person are removed
             fetch = FetchType.LAZY
@@ -52,7 +52,7 @@ public class Supplier {
 
     @OneToMany(
             targetEntity = Transaction.class,
-            mappedBy = "transaction",       // join column should be in *Address*
+            mappedBy = "supplier",       // join column should be in *Address*
             cascade = CascadeType.ALL, // all JPA actions (persist, remove, refresh, merge, detach) propagate to each address
             orphanRemoval = true,      // address records that are no longer attached to a person are removed
             fetch = FetchType.LAZY
@@ -122,6 +122,14 @@ public class Supplier {
     public void removeSupplyContract(SupplyContract supplyContract) {
         supplyContracts.remove(supplyContract);
         supplyContract.setSupplier(this);
+    }
+
+    public List<Transaction> getTransactions() {
+        return this.transactions;
+    }
+
+    public List<SupplyContract> getSupplyContracts() {
+        return this.supplyContracts;
     }
 
     // TODO: Link Supplier to State table

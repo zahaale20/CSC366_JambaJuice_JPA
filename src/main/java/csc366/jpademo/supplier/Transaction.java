@@ -24,10 +24,10 @@ public class Transaction {
 
     @OneToOne(
             targetEntity = SupplyContract.class,
-            mappedBy = "supply_contract",
             cascade = CascadeType.REMOVE,
             fetch = FetchType.LAZY
     )
+    @JoinColumn(name = "supply_contract_id")
     private SupplyContract supplyContract;
 
     @ManyToOne(
@@ -35,15 +35,15 @@ public class Transaction {
             cascade = CascadeType.REMOVE,
             fetch = FetchType.LAZY
     )
+    @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
-    @OneToMany(
+    @ManyToMany(
             targetEntity = Ingredient.class,
-            mappedBy = "ingredient",
             cascade = CascadeType.PERSIST,
-            fetch = FetchType.LAZY,
-            orphanRemoval = true
+            fetch = FetchType.LAZY
     )
+    @JoinColumn(name = "ingredient_id")
     private List<Ingredient> ingredients = new ArrayList<>();
 
     // TODO: Link Transation to DrinkVariation table

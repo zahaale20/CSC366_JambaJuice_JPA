@@ -26,12 +26,14 @@ public class SupplyContract {
             cascade = CascadeType.ALL, // all JPA actions (persist, remove, refresh, merge, detach) propagate to each address
             fetch = FetchType.LAZY
     )
+    @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
     @OneToOne(
             targetEntity = Transaction.class,
             cascade = CascadeType.REMOVE
     )
+    @JoinColumn(name = "transaction_id")
     private Transaction transaction;
 
     // TODO: Link Supplier to SupplyReceiptRow assocation class

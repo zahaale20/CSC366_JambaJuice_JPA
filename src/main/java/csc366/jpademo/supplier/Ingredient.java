@@ -24,13 +24,12 @@ public class Ingredient {
 
     private String description;
 
-    @OneToMany(
+    @ManyToMany(
             targetEntity = Transaction.class,
-            mappedBy = "transaction",
             cascade = CascadeType.PERSIST,
-            fetch = FetchType.LAZY,
-            orphanRemoval = true
+            fetch = FetchType.LAZY
     )
+    @JoinColumn(name = "transaction_id")
     private List<Transaction> transactions = new ArrayList<>();
 
     public Ingredient() {}
