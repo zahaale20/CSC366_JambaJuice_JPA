@@ -32,7 +32,7 @@ public class CustomerReceipt {
 
     public CustomerReceipt() {}
 
-    public CustomerReceipt(Float total, Date dateTime, Float tax, csc366.jpademo.customers.Customer customer, csc366.jpademo.customers.State state;) {
+    public CustomerReceipt(Float total, Date dateTime, Float tax, csc366.jpademo.customers.Customer customer, csc366.jpademo.customers.State state) {
         this.total = total;
         this.dateTime = dateTime;
         this.tax = tax;
