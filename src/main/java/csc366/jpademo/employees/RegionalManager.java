@@ -18,6 +18,8 @@ import javax.persistence.UniqueConstraint;
 
 import javax.validation.constraints.NotNull;
 
+import java.util.Date;
+
 @Entity  // indicates that this class maps to a database table
 @Table(
     name = "regional_manager"     // may be omitted for default table naming
@@ -31,10 +33,11 @@ public class RegionalManager extends Employee {
     @Column(name="reportingBoardID")
     private Long reportingBoardID;
 
-    public RegionalManager() { }
+    //public RegionalManager() { }
 
-    public RegionalManager(String region, int reportingBoardID)
+    public RegionalManager(String firstName, String middleName, String lastName, String phoneNumber, String email, String jobTitle, Date dateStart, Date dateEnd, Employee supervisor, String employmentType, Date dateOfBirth, String SSN, Double salary, String gender, String ethnicity, String region, Long reportingBoardID)
     {
+        super(firstName, middleName, lastName, phoneNumber, email, jobTitle, dateStart, dateEnd, supervisor, employmentType, dateOfBirth, SSN, salary, gender, ethnicity);
         this.region = region;
         this.reportingBoardID = reportingBoardID;
     }

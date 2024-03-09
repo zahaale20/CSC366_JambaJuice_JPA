@@ -18,6 +18,8 @@ import javax.persistence.UniqueConstraint;
 
 import javax.validation.constraints.NotNull;
 
+import java.util.Date;
+
 @Entity  // indicates that this class maps to a database table
 @Table(
     name = "associate"     // may be omitted for default table naming
@@ -27,10 +29,11 @@ public class Associate extends Employee {
     @Column(name="localManagerID")
     private Long localManagerID;
 
-    public Associate() { }
+    //public Associate() { }
 
-    public Associate(Long localManagerID)
+    public Associate(String firstName, String middleName, String lastName, String phoneNumber, String email, String jobTitle, Date dateStart, Date dateEnd, Employee supervisor, String employmentType, Date dateOfBirth, String SSN, Double salary, String gender, String ethnicity, Long localManagerID)
     {
+        super(firstName, middleName, lastName, phoneNumber, email, jobTitle, dateStart, dateEnd, supervisor, employmentType, dateOfBirth, SSN, salary, gender, ethnicity);
         this.localManagerID = localManagerID;
     }
 
