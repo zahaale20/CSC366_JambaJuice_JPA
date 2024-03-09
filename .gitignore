@@ -33,3 +33,6 @@ build/*
 #gradle
 .gradle
 settings.gradle
+
+#Ignore all the DS store files
+.DS_Store
