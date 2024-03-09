@@ -1,21 +1,21 @@
 package csc366.jpademo.employees;
 
-import jdk.vm.ci.meta.Local;
-import org.springframework.jmx.export.annotation.ManagedAttribute;
-
+import csc366.jpademo.Restaurant;
 import java.util.*;
-
 import javax.persistence.*;
-
-import javax.validation.constraints.NotNull;
 
 @Entity  // indicates that this class maps to a database table
 public class LocalManager extends Employee implements java.io.Serializable {
     @Column(name="localManagerID")
     private Long localManagerID;
 
-    @Column(name="restaurantID")
-    private Long restaurantID;
+    @ManyToOne(
+            targetEntity = Restaurant.class,
+            cascade = CascadeType.PERSIST,
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name="restaurantID")
+    private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "regionalManagerID", referencedColumnName = "id")
@@ -35,22 +35,22 @@ public class LocalManager extends Employee implements java.io.Serializable {
         this.associates = new HashSet<>();
     }
 
-    public LocalManager(Long restaurantID)
+    public LocalManager(Restaurant restaurant)
     {
         Random random = new Random();
         this.localManagerID = random.nextLong();
-        this.restaurantID = restaurantID;
+        this.restaurant = restaurant;
     }
 
     public Long getLocalManagerID() { return localManagerID; }
-    public Long getRestaurantID() { return restaurantID; }
+    public Restaurant getRestaurant() { return restaurant; }
     public RegionalManager getRegionalManager() { return regionalManager; }
 
     public Set<Associate> getAssociates() { return associates; }
 
 
     public void setLocalManagerID(Long localManagerID) { this.localManagerID = localManagerID; }
-    public void setRestaurantID(Long restaurantID) { this.restaurantID = restaurantID; }
+    public void setRestaurant(Restaurant restaurant) { this.restaurant = restaurant; }
     public void setRegionalManager(RegionalManager regionalManager) {
         if (this.regionalManager != regionalManager) {
             this.regionalManager = regionalManager;
@@ -75,7 +75,7 @@ public class LocalManager extends Employee implements java.io.Serializable {
 
     public String LocalManagertoString() {
         StringJoiner sj = new StringJoiner("," , LocalManager.class.getSimpleName() + "[" , "]");
-        sj.add(localManagerID.toString()).add(restaurantID.toString());
+        sj.add(localManagerID.toString()).add(restaurant.toString());
         return this.toString() + sj;
     }
 

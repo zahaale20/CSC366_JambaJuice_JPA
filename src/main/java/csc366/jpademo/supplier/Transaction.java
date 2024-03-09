@@ -1,5 +1,7 @@
 package csc366.jpademo.supplier;
 
+import csc366.jpademo.Restaurant;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -45,6 +47,14 @@ public class Transaction {
     )
     @JoinColumn(name = "ingredient_id")
     private List<Ingredient> ingredients = new ArrayList<>();
+
+    @ManyToOne(
+            targetEntity = Restaurant.class,
+            cascade = CascadeType.PERSIST,
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 
     // TODO: Link Transation to DrinkVariation table
 //    @ManyToOne(
