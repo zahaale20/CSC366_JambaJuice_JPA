@@ -6,16 +6,20 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
+
+
 @Repository
 public interface StateRepository extends JpaRepository<State, Long>{
     State findByName(String name);
     
     State findByAbbreviation(String abbreviation);
 
-    List<State> findBySalesTaxPercent(Float salesTaxPercent);
+    List<State> findBySalesTaxPercent(Double salesTaxPercent);
 
     @Query("SELECT s from State s WHERE s.salesTaxPercent >= :minSalesTaxPercent AND s.salesTaxPercent <= :maxSalesTaxPercent")
-    List<State> findBySalesTaxPercentRange(@Param("minSalesTaxPercent") Float minSalesTaxPercent, @Param("maxSalesTaxPercent") Float maxSalesTaxPercent);
+    List<State> findBySalesTaxPercentRange(@Param("minSalesTaxPercent") Double minSalesTaxPercent, @Param("maxSalesTaxPercent") Double maxSalesTaxPercent);
 
     @Modifying
     @Transactional
@@ -30,7 +34,7 @@ public interface StateRepository extends JpaRepository<State, Long>{
     @Modifying
     @Transactional
     @Query("UPDATE State s SET s.salesTaxPercent = :newSalesTaxPercent WHERE s.stateID = :stateID")
-    void updateSalesTaxPercent(@Param("stateID") Long stateID, @Param("newSalesTaxPercent") Float newSalesTaxPercent);
+    void updateSalesTaxPercent(@Param("stateID") Long stateID, @Param("newSalesTaxPercent") Double newSalesTaxPercent);
 
     @Modifying
     @Transactional

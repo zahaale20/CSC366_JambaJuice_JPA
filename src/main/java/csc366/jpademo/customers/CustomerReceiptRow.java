@@ -1,11 +1,11 @@
-package csc366.jpademo.customers;
+// package csc366.jpademo.customers;
 
-import javax.persistence.*;
-import java.util.Date;
-import java.util.Objects;
+// import javax.persistence.*;
+// import java.util.Date;
+// import java.util.Objects;
 
-@Entity
-@Table(name = "customer_receipt_row")
-public class CustomerReceiptRow {
+// @Entity
+// @Table(name = "customer_receipt_row")
+// public class CustomerReceiptRow {
   
-}
+// }

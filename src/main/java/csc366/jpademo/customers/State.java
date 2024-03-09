@@ -4,6 +4,9 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+import java.util.StringJoiner;
+
+
 @Entity
 @Table(name = "state")
 public class State {
@@ -18,7 +21,7 @@ public class State {
     private String name;
 
     @Column(name="sales_tax_percent", nullable = false)
-    private Float salesTaxPercent;
+    private Double salesTaxPercent;
 
 
     // TODO : 
@@ -28,7 +31,7 @@ public class State {
 
     public State() {}
 
-    public State(String abbreviation, String name, Float salesTaxPercent) {
+    public State(String abbreviation, String name, Double salesTaxPercent) {
         this.abbreviation = abbreviation;
         this.name = name;
         this.salesTaxPercent = salesTaxPercent;
@@ -59,18 +62,18 @@ public class State {
         this.name = name;
     }
 
-    public Float getSalesTaxPercent() {
+    public Double getSalesTaxPercent() {
         return salesTaxPercent;
     }
 
-    public void setSalesTaxPercent(Float salesTaxPercent) {
+    public void setSalesTaxPercent(Double salesTaxPercent) {
         this.salesTaxPercent = salesTaxPercent;
     }
 
     @Override
     public String toString() {
         StringJoiner sj = new StringJoiner(",", State.class.getSimpleName() + "[", "]");
-        sj.add(stateID.toString()).add(abbreviation).add(name).add(salesTaxPercent);
+        sj.add(stateID.toString()).add(abbreviation).add(name).add(salesTaxPercent.toString());
         return sj.toString();
     }
 

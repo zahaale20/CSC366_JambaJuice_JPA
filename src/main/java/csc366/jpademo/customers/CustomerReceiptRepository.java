@@ -6,13 +6,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Date;
+import org.springframework.transaction.annotation.Transactional;
+
+
 @Repository
 public interface CustomerReceiptRepository extends JpaRepository<CustomerReceipt, Long>{
-    List<CustomerReceipt> findByTotal(Float total);
+    List<CustomerReceipt> findByTotal(Double total);
 
     List<CustomerReceipt> findByDateTime(Date dateTime);
 
-    List<CustomerReceipt> findByTax(Float tax);
+    List<CustomerReceipt> findByTax(Double tax);
 
     List<CustomerReceipt> findByCustomer(csc366.jpademo.customers.Customer customer);
 
@@ -30,7 +35,7 @@ public interface CustomerReceiptRepository extends JpaRepository<CustomerReceipt
     @Modifying
     @Transactional
     @Query("UPDATE CustomerReceipt cr SET cr.total = :newTotal WHERE cr.customerReceiptID = :customerReceiptID")
-    void updateTotal(@Param("customerReceiptID") Long customerReceiptID, @Param("newTotal") Float newTotal);
+    void updateTotal(@Param("customerReceiptID") Long customerReceiptID, @Param("newTotal") Double newTotal);
 
     @Modifying
     @Transactional
@@ -40,7 +45,7 @@ public interface CustomerReceiptRepository extends JpaRepository<CustomerReceipt
     @Modifying
     @Transactional
     @Query("UPDATE CustomerReceipt cr SET cr.tax = :newTax WHERE cr.customerReceiptID = :customerReceiptID")
-    void updateTax(@Param("customerReceiptID") Long customerReceiptID, @Param("newTax") Float newTax);
+    void updateTax(@Param("customerReceiptID") Long customerReceiptID, @Param("newTax") Double newTax);
 
     @Modifying
     @Transactional

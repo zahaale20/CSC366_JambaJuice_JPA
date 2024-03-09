@@ -6,21 +6,25 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
+
+
 @Repository
 public interface DrinkVariationRepository extends JpaRepository<DrinkVariation, Long>{
     List<DrinkVariation> findByDrink(csc366.jpademo.customers.Drink drink);
 
     @Query("SELECT dv from DrinkVariation dv WHERE dv.costToMake >= :minCost AND dv.costToMake <= :maxCost")
-    List<DrinkVariation> findByCostToMakeRange(@Param("minCost") Float minCost, @Param("maxCost") Float maxCost);
+    List<DrinkVariation> findByCostToMakeRange(@Param("minCost") Double minCost, @Param("maxCost") Double maxCost);
 
     @Query("SELECT dv from DrinkVariation dv WHERE dv.priceToSell >= :minPrice AND dv.priceToSell <= :maxPrice")
-    List<DrinkVariation> findByPriceToSellRange(@Param("minPrice") Float minPrice, @Param("maxPrice") Float maxPrice);
+    List<DrinkVariation> findByPriceToSellRange(@Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice);
 
     @Query("SELECT dv from DrinkVariation dv WHERE dv.priceToSell - dv.costToMake >= :minProfit")
-    List<DrinkVariation> findByMinProfit(@Param("minProfit") Float minProfit);
+    List<DrinkVariation> findByMinProfit(@Param("minProfit") Double minProfit);
     
     @Query("SELECT dv from DrinkVariation dv WHERE dv.priceToSell - dv.costToMake <= :maxProfit")
-    List<DrinkVariation> findByMaxProfit(@Param("maxProfit") Float maxProfit);
+    List<DrinkVariation> findByMaxProfit(@Param("maxProfit") Double maxProfit);
     
     @Modifying
     @Transactional
@@ -30,12 +34,12 @@ public interface DrinkVariationRepository extends JpaRepository<DrinkVariation, 
     @Modifying
     @Transactional
     @Query("UPDATE DrinkVariation dv SET dv.costToMake = :newCostToMake WHERE dv.drinkVariationID = :drinkVariationID")
-    void updateCostToMake(@Param("drinkVariationID") Long drinkVariationID, @Param("newCostToMake") Float newCostToMake);
+    void updateCostToMake(@Param("drinkVariationID") Long drinkVariationID, @Param("newCostToMake") Double newCostToMake);
 
     @Modifying
     @Transactional
     @Query("UPDATE DrinkVariation dv SET dv.priceToSell = :newPriceToSell WHERE dv.drinkVariationID = :drinkVariationID")
-    void updatePriceToSell(@Param("drinkVariationID") Long drinkVariationID, @Param("newPriceToSell") Float newPriceToSell);
+    void updatePriceToSell(@Param("drinkVariationID") Long drinkVariationID, @Param("newPriceToSell") Double newPriceToSell);
 
     @Modifying
     @Transactional

@@ -4,6 +4,9 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+import java.util.StringJoiner;
+
+
 @Entity
 @Table(name = "customer_receipt")
 public class CustomerReceipt {
@@ -12,14 +15,14 @@ public class CustomerReceipt {
     private Long customerReceiptID;
 
     @Column(nullable = false)
-    private Float total;
+    private Double total;
 
     @Column(name = "date_time", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date dateTime;
 
     @Column(nullable = false)
-    private Float tax;
+    private Double tax;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customerID", nullable = false)
@@ -32,7 +35,7 @@ public class CustomerReceipt {
 
     public CustomerReceipt() {}
 
-    public CustomerReceipt(Float total, Date dateTime, Float tax, csc366.jpademo.customers.Customer customer, csc366.jpademo.customers.State state;) {
+    public CustomerReceipt(Double total, Date dateTime, Double tax, csc366.jpademo.customers.Customer customer, csc366.jpademo.customers.State state) {
         this.total = total;
         this.dateTime = dateTime;
         this.tax = tax;
@@ -42,18 +45,18 @@ public class CustomerReceipt {
 
     // Getters and setters
     public Long getCustomerReceiptID() {
-        return CustomerReceiptID;
+        return customerReceiptID;
     }
 
     public void setCustomerReceiptID(Long customerReceiptID) {
         this.customerReceiptID = customerReceiptID;
     }
 
-    public Float getTotal() {
+    public Double getTotal() {
         return total;
     }
 
-    public void setTotal(Float total) {
+    public void setTotal(Double total) {
         this.total = total;
     }
 
@@ -65,11 +68,11 @@ public class CustomerReceipt {
         this.dateTime = dateTime;
     }
 
-    public Float getTax() {
+    public Double getTax() {
         return tax;
     }
 
-    public void setTax(Float tax) {
+    public void setTax(Double tax) {
         this.tax = tax;
     }
 
@@ -92,7 +95,7 @@ public class CustomerReceipt {
     @Override
     public String toString() {
         StringJoiner sj = new StringJoiner(",", CustomerReceipt.class.getSimpleName() + "[", "]");
-        sj.add(customerReceiptID.toString()).add(total).add(dateTime).add(tax).add(customer).add(state);
+        sj.add(customerReceiptID.toString()).add(total.toString()).add(dateTime.toString()).add(tax.toString()).add(customer.toString()).add(state.toString());
         return sj.toString();
     }
 

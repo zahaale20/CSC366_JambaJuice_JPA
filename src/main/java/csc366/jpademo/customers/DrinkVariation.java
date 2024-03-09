@@ -4,6 +4,9 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+import java.util.StringJoiner;
+
+
 @Entity
 @Table(name = "drink_variation")
 public class DrinkVariation {
@@ -15,10 +18,10 @@ public class DrinkVariation {
     private String size;
 
     @Column(name = "cost_to_make", nullable = false)
-    private Float costToMake;
+    private Double costToMake;
 
     @Column(name = "price_to_sell", nullable = false)
-    private Float priceToSell;
+    private Double priceToSell;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "drinkID", nullable = false)
@@ -27,7 +30,7 @@ public class DrinkVariation {
 
     public DrinkVariation() {}
 
-    public DrinkVariation(String size, Float costToMake, Float priceToSell, csc366.jpademo.customers.Drink drink) {
+    public DrinkVariation(String size, Double costToMake, Double priceToSell, csc366.jpademo.customers.Drink drink) {
         this.size = size;
         this.costToMake = costToMake;
         this.priceToSell = priceToSell;
@@ -43,27 +46,27 @@ public class DrinkVariation {
         this.drinkVariationID = drinkVariationID;
     }
 
-    public String getName() {
-        return name;
+    public String getSize() {
+        return size;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSize(String size) {
+        this.size = size;
     }
 
-    public Float getCostToMake() {
+    public Double getCostToMake() {
         return costToMake;
     }
 
-    public void setCostToMake(Float costToMake) {
+    public void setCostToMake(Double costToMake) {
         this.costToMake = costToMake;
     }
 
-    public Float getPriceToSell() {
+    public Double getPriceToSell() {
         return priceToSell;
     }
 
-    public void setPriceToSell(Float priceToSell) {
+    public void setPriceToSell(Double priceToSell) {
         this.priceToSell = priceToSell;
     }
 
@@ -78,7 +81,7 @@ public class DrinkVariation {
     @Override
     public String toString() {
         StringJoiner sj = new StringJoiner(",", Customer.class.getSimpleName() + "[", "]");
-        sj.add(drinkVariationID.toString()).add(name).add(costToMake).add(priceToSell).add(drink);
+        sj.add(drinkVariationID.toString()).add(size).add(costToMake.toString()).add(priceToSell.toString()).add(drink.toString());
         return sj.toString();
     }
 
