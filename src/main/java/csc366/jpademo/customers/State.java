@@ -1,10 +1,9 @@
 package csc366.jpademo.customers;
 
-import javax.persistence.*;
-import java.util.Date;
-import java.util.Objects;
+import csc366.jpademo.Restaurant;
 
-import java.util.StringJoiner;
+import javax.persistence.*;
+import java.util.*;
 
 
 @Entity
@@ -27,7 +26,13 @@ public class State {
     // TODO : 
     // add incomeTaxProgessiveID ??
 
-
+    @OneToMany(
+            targetEntity = Restaurant.class,
+            cascade = CascadeType.PERSIST,
+            fetch = FetchType.LAZY,
+            mappedBy = "state"
+    )
+    private List<Restaurant> restaurants = new ArrayList<>();
 
     public State() {}
 
