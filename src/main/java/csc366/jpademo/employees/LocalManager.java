@@ -1,50 +1,93 @@
 package csc366.jpademo.employees;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.StringJoiner;
+import jdk.vm.ci.meta.Local;
+import org.springframework.jmx.export.annotation.ManagedAttribute;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.OrderColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.UniqueConstraint;
+import java.util.*;
+
+import javax.persistence.*;
 
 import javax.validation.constraints.NotNull;
 
-import java.util.Date;
-
 @Entity  // indicates that this class maps to a database table
-@Table(
-    name = "local_manager"     // may be omitted for default table naming
-)
 public class LocalManager extends Employee {
-    @NotNull
+    @Column(name="localManagerID", unique = true)
+    private Long localManagerID;
+
     @Column(name="restaurantID")
     private Long restaurantID;
 
-    @NotNull
-    @Column(name="regionalManagerID")
-    private Long regionalManagerID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "regionalManagerID", referencedColumnName = "regionalManagerID")
+    private RegionalManager regionalManager;
 
-    //public LocalManager() {}
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "associate_local_manager",
+            joinColumns = @JoinColumn(name = "associate_employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "local_manager_id")
+    )
+    private Set<Associate> associates;
 
-    public LocalManager(String firstName, String middleName, String lastName, String phoneNumber, String email, String jobTitle, Date dateStart, Date dateEnd, Employee supervisor, String employmentType, Date dateOfBirth, String SSN, Double salary, String gender, String ethnicity, Long restaurantID, Long regionalManagerID)
-    {
-        super(firstName, middleName, lastName, phoneNumber, email, jobTitle, dateStart, dateEnd, supervisor, employmentType, dateOfBirth, SSN, salary, gender, ethnicity);
-        this.restaurantID = restaurantID;
-        this.regionalManagerID = regionalManagerID;
+    public LocalManager() {
+        Random random = new Random();
+        this.localManagerID = random.nextLong();
+        this.associates = new HashSet<>();
     }
 
-    public Long getRestaurantID() { return restaurantID; }
-    public Long getRegionalManagerID() { return regionalManagerID; }
+    public LocalManager(Long restaurantID)
+    {
+        Random random = new Random();
+        this.localManagerID = random.nextLong();
+        this.restaurantID = restaurantID;
+    }
 
+    public Long getLocalManagerID() { return localManagerID; }
+    public Long getRestaurantID() { return restaurantID; }
+    public RegionalManager getRegionalManager() { return regionalManager; }
+
+    public Set<Associate> getAssociates() { return associates; }
+
+
+    public void setLocalManagerID(Long localManagerID) { this.localManagerID = localManagerID; }
     public void setRestaurantID(Long restaurantID) { this.restaurantID = restaurantID; }
-    public void setRegionalManagerID(Long regionalManagerID) { this.regionalManagerID = regionalManagerID; }
+    public void setRegionalManager(RegionalManager regionalManager) {
+        if (this.regionalManager != regionalManager) {
+            this.regionalManager = regionalManager;
+            regionalManager.addLocalManager(this);
+        }
+    }
+    public void unsetRegionalManager(RegionalManager regionalManager) {
+        if (this.regionalManager == regionalManager) {
+            this.regionalManager = null;
+            regionalManager.removeLocalManager(this);
+        }
+    }
+    public void addAssociate(Associate associate) {
+        associates.add(associate);
+        associate.getLocalManagers().add(this);
+    }
+    public void removeAssociate(Associate associate) {
+        associates.remove(associate);
+        associate.getLocalManagers().remove(this);
+    }
+
+
+    public String LocalManagertoString() {
+        StringJoiner sj = new StringJoiner("," , LocalManager.class.getSimpleName() + "[" , "]");
+        sj.add(localManagerID.toString()).add(restaurantID.toString());
+        return this.toString() + sj;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LocalManager)) return false;
+        return this.localManagerID != null && this.localManagerID.equals(((LocalManager) o).localManagerID);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.localManagerID.hashCode();
+    }
 }

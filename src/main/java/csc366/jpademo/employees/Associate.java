@@ -1,43 +1,52 @@
 package csc366.jpademo.employees;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.StringJoiner;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.OrderColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.UniqueConstraint;
+import jdk.vm.ci.meta.Local;
+import org.hibernate.annotations.Fetch;
+
+import java.util.*;
+
+import javax.persistence.*;
 
 import javax.validation.constraints.NotNull;
 
-import java.util.Date;
-
 @Entity  // indicates that this class maps to a database table
-@Table(
-    name = "associate"     // may be omitted for default table naming
-)
 public class Associate extends Employee {
-    @NotNull
-    @Column(name="localManagerID")
-    private Long localManagerID;
 
-    //public Associate() { }
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "associate_local_manager",
+            joinColumns = @JoinColumn(name = "associate_employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "local_manager_id")
+    )
+    private Set<LocalManager> localManagers;
 
-    public Associate(String firstName, String middleName, String lastName, String phoneNumber, String email, String jobTitle, Date dateStart, Date dateEnd, Employee supervisor, String employmentType, Date dateOfBirth, String SSN, Double salary, String gender, String ethnicity, Long localManagerID)
-    {
-        super(firstName, middleName, lastName, phoneNumber, email, jobTitle, dateStart, dateEnd, supervisor, employmentType, dateOfBirth, SSN, salary, gender, ethnicity);
-        this.localManagerID = localManagerID;
+    public Associate() {
+        this.localManagers = new HashSet<>();
     }
 
-    public Long getLocalManagerID() { return localManagerID; }
+    public Set<LocalManager> getLocalManagers() {
+        return localManagers;
+    }
 
-    public void setLocalManagerID(Long localManagerID) { this.localManagerID = localManagerID; }
+    public void addLocalManager(LocalManager localManager) {
+        localManagers.add(localManager);
+        localManager.getAssociates().add(this);
+    }
+
+    public void removeLocalManager(LocalManager localManager) {
+        localManagers.remove(localManager);
+        localManager.getAssociates().remove(this);
+    }
+
+    public String AssociatetoString() {
+        return this.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Associate)) return false;
+        return this.getEmployeeID() != null && this.getEmployeeID().equals(((Associate) o).getEmployeeID());
+    }
 }

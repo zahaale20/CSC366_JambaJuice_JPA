@@ -1,6 +1,7 @@
 package csc366.jpademo.employees;
 
 import javax.persistence.*;
+import javax.swing.plaf.synth.Region;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +14,9 @@ public class BoardOfDirectors {
 
     @OneToMany(mappedBy = "boardOfDirectors", fetch = FetchType.EAGER) // Changed to EAGER fetching
     private Set<Owner> owners = new HashSet<>();
+
+    @OneToMany(mappedBy = "boardOfDirectors", fetch = FetchType.LAZY)
+    private Set<RegionalManager> regionalManagers = new HashSet<>();
 
     @OneToMany(mappedBy = "boardOfDirectors", fetch = FetchType.EAGER) // Changed to EAGER fetching
     private Set<Director> directors = new HashSet<>();

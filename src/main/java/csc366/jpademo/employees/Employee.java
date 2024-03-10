@@ -67,6 +67,8 @@ public class Employee {
     @Column(nullable = false)
     private String ethnicity;
 
+    public Employee( ) { }
+
     public Employee(String firstName, String middleName, String lastName, String phoneNumber, String email, String jobTitle, Date dateStart, Date dateEnd, Employee supervisor, String employmentType, Date dateOfBirth, String SSN, Double salary, String gender, String ethnicity) {
         this.firstName = firstName;
         this.middleName = middleName;

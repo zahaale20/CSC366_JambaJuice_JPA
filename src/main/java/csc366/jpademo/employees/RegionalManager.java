@@ -1,50 +1,80 @@
+//IMPORT Employee class
 package csc366.jpademo.employees;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.StringJoiner;
+import java.util.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.OrderColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
 import javax.validation.constraints.NotNull;
 
-import java.util.Date;
-
 @Entity  // indicates that this class maps to a database table
-@Table(
-    name = "regional_manager"     // may be omitted for default table naming
-)
 public class RegionalManager extends Employee {
     @NotNull
+    @Column(name = "regionalManagerID", unique = true)
+    private Long regionalManagerID;
+
     @Column(name="region")
     private String region;
 
-    @NotNull
-    @Column(name="reportingBoardID")
-    private Long reportingBoardID;
+    @ManyToOne
+    @JoinColumn(name = "board_id", referencedColumnName = "boardID")
+    private BoardOfDirectors boardOfDirectors;
 
-    //public RegionalManager() { }
+    @OneToMany(mappedBy = "regionalManager", fetch = FetchType.LAZY)
+    private Set<LocalManager> localManagers;
 
-    public RegionalManager(String firstName, String middleName, String lastName, String phoneNumber, String email, String jobTitle, Date dateStart, Date dateEnd, Employee supervisor, String employmentType, Date dateOfBirth, String SSN, Double salary, String gender, String ethnicity, String region, Long reportingBoardID)
-    {
-        super(firstName, middleName, lastName, phoneNumber, email, jobTitle, dateStart, dateEnd, supervisor, employmentType, dateOfBirth, SSN, salary, gender, ethnicity);
-        this.region = region;
-        this.reportingBoardID = reportingBoardID;
+    public RegionalManager() {
+        Random random = new Random();
+        this.regionalManagerID = random.nextLong();
+        this.localManagers = new HashSet<>();
     }
 
-    public String getRegion() { return region; }
-    public Long getReportingBoardID() { return reportingBoardID; }
+    public RegionalManager(String region)
+    {
+        Random random = new Random();
+        this.regionalManagerID = random.nextLong();
+        this.region = region;
+        this.localManagers = new HashSet<>();
+    }
 
+    public Long getRegionalManagerID() { return regionalManagerID; }
+    public String getRegion() { return region; }
+    public BoardOfDirectors getReportingBoard() { return boardOfDirectors; }
+    public Set<LocalManager> getLocalManagers() {
+        return localManagers;
+    }
+
+    public void setRegionalManagerID(Long regionalManagerID) { this.regionalManagerID = regionalManagerID; }
     public void setRegion(String region) { this.region = region; }
-    public void setReportingBoardID(Long reportingBoardID) { this.reportingBoardID = reportingBoardID; }
+    public void setReportingBoard(BoardOfDirectors boardOfDirectors) { this.boardOfDirectors = boardOfDirectors; }
+    public void addLocalManager(LocalManager localManager) {
+        if (!localManagers.contains(localManager)) {
+            localManagers.add(localManager);
+            localManager.setRegionalManager(this);
+        }
+    }
+    public void removeLocalManager(LocalManager localManager) {
+        if (localManagers.contains(localManager)) {
+            localManagers.remove(localManager);
+            localManager.unsetRegionalManager(this);
+        }
+    }
+
+    public String RegionalManagertoString() {
+        StringJoiner sj = new StringJoiner("," , RegionalManager.class.getSimpleName() + "[" , "]");
+        sj.add(this.regionalManagerID.toString()).add(region);
+        return this.toString() + sj;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RegionalManager)) return false;
+        return this.regionalManagerID != null && this.regionalManagerID.equals(((RegionalManager) o).regionalManagerID);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.regionalManagerID.hashCode();
+    }
 }

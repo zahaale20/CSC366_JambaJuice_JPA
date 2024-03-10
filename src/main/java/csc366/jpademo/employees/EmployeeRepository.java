@@ -13,8 +13,10 @@ import java.util.List;
 @Repository
 public interface EmployeeRepository extends JpaRepository<csc366.jpademo.employees.Employee, Long> {
 
+    @Query("SELECT e FROM Employee e WHERE e.email = :email")
     csc366.jpademo.employees.Employee findByEmail(String email);
 
+    @Query("SELECT e FROM Employee e WHERE e.employmentType = :employmentType")
     List<Employee> findByEmploymentType(String employmentType);
 
     @Query("SELECT e FROM Employee e WHERE e.firstName = :name OR e.lastName = :name")
