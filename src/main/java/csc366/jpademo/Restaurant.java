@@ -3,14 +3,10 @@ package csc366.jpademo;
 import csc366.jpademo.customers.CustomerReceipt;
 import csc366.jpademo.customers.State;
 import csc366.jpademo.employees.LocalManager;
-import csc366.jpademo.supplier.Transaction;
-import jdk.vm.ci.meta.Local;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
 
 @Entity  // indicates that this class maps to a database table
 @Table(
@@ -44,8 +40,7 @@ public class Restaurant {
     @ManyToOne(
             targetEntity = CustomerReceipt.class,
             cascade = CascadeType.PERSIST,
-            fetch = FetchType.LAZY,
-            optional = false
+            fetch = FetchType.LAZY
     )
     @JoinColumn(name = "customer_receipt_id")
     private CustomerReceipt customerReceipt;
