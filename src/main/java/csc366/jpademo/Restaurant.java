@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 @Entity  // indicates that this class maps to a database table
 @Table(
@@ -84,12 +85,12 @@ public class Restaurant {
         localManager.setRestaurant(null);
     }
 
-    //    @Override
-//    public String toString() {
-//        StringJoiner sj = new StringJoiner("," , Restaurant.class.getSimpleName() + "[" , "]");
-//        sj.add(id.toString()).add(name).add(String.valueOf(numUnit)).add(String.valueOf(description));
-//        return sj.toString();
-//    }
+    @Override
+    public String toString() {
+        StringJoiner sj = new StringJoiner("," , Restaurant.class.getSimpleName() + "[" , "]");
+        sj.add(id.toString()).add(address).add(String.valueOf(state)).add(String.valueOf(localManagers)).add(String.valueOf(customerReceipt));
+        return sj.toString();
+    }
 
     @Override
     public int hashCode() {
