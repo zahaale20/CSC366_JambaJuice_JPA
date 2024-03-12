@@ -40,12 +40,10 @@ import java.util.List;
         "logging.pattern.console= %d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 })
 @TestMethodOrder(OrderAnnotation.class)
-public class LocalManagerTests {
+public class RegionalManagerTests {
 
-    private final static Logger log = LoggerFactory.getLogger(LocalManagerTests.class);
+    private final static Logger log = LoggerFactory.getLogger(RegionalManagerTests.class);
 
-    @Autowired
-    private AssociateRepository associateRepository;
 
     @Autowired
     private LocalManagerRepository localManagerRepository;
@@ -53,10 +51,18 @@ public class LocalManagerTests {
     @Autowired
     private RegionalManagerRepository regionalManagerRepository;
 
-    private  Associate associate = new Associate();  // "reference" Associate
-    private  LocalManager localManager = new LocalManager();
+    @Autowired
+    private BoardOfDirectorsRepository boardOfDirectorsRepository;
 
-    private  RegionalManager regionalManager = new RegionalManager();
+    private final LocalManager localManager = new LocalManager();
+
+    private final RegionalManager regionalManager = new RegionalManager();
+    private final BoardOfDirectors boardOfDirectors = new BoardOfDirectors();
+
+    private void boardOfDirectorsSetUp() {
+        boardOfDirectors.setBoardName("my-board");
+        boardOfDirectors.setDateStart(new Date());
+    }
 
     private void regionalManagerSetUp() {
         regionalManager.setFirstName("Regional");
@@ -71,6 +77,7 @@ public class LocalManagerTests {
         regionalManager.setSalary(200000.00);
         regionalManager.setGender("Male");
         regionalManager.setEthnicity("White");
+        regionalManager.setReportingBoard(boardOfDirectors);
     }
 
     private void localManagerSetUp() {
@@ -87,48 +94,34 @@ public class LocalManagerTests {
         localManager.setGender("Female");
         localManager.setEthnicity("Asian");
         localManager.setRegionalManager(regionalManager);
-
-    }
-    private void associateSetUp() {
-        associate.setFirstName("Associate");
-        associate.setLastName("1");
-        associate.setPhoneNumber("888-888-8888");
-        associate.setEmail("associate1@gmail.com");
-        associate.setJobTitle("Server");
-        associate.setDateStart(new Date());
-        associate.setEmploymentType("Part-time");
-        associate.setSSN("123-45-6789");
-        associate.setDateOfBirth(new Date());
-        associate.setSalary(100000.00);
-        associate.setGender("Female");
-        associate.setEthnicity("Hispanic");
-        associate.addLocalManager(localManager);
     }
 
     @BeforeEach
     private void setup() {
-        regionalManagerSetUp();
         localManagerSetUp();
-        associateSetUp();
+        regionalManagerSetUp();
+        boardOfDirectorsSetUp();
 
-        regionalManager =  regionalManagerRepository.saveAndFlush(regionalManager);
-        localManager =  localManagerRepository.saveAndFlush(localManager);
-        associate =  associateRepository.saveAndFlush(associate);
+        boardOfDirectorsRepository.saveAndFlush(boardOfDirectors);
+        regionalManagerRepository.saveAndFlush(regionalManager);
+        localManagerRepository.saveAndFlush(localManager);
+
     }
 
     @Test
     @Order(1)
-    public void testGetLocalManagerByAssociate() {
-        LocalManager localManager2 = localManagerRepository.findByAssociate(associate).get(0);
+    public void testGetByLocalManager() {
+        RegionalManager regionalManager2 = regionalManagerRepository.findByLocalManager(localManager);
 
-        assertEquals(localManager.getEmployeeID(), localManager2.getEmployeeID());
+        assertEquals(regionalManager2.getEmployeeID(), regionalManager.getEmployeeID());
     }
 
     @Test
     @Order(2)
-    public void testGetLocalManagerByRegionalManager() {
-        LocalManager localManager2 = localManagerRepository.findByRegionalManager(regionalManager).get(0);
-        assertEquals(localManager2.getLocalManagerID(), localManager.getLocalManagerID());
+    public void testGetByBoard() {
+        RegionalManager regionalManager2 = regionalManagerRepository.findByBoard(boardOfDirectors);
+
+        assertEquals(regionalManager2.getEmployeeID(), regionalManager.getEmployeeID());
     }
 
 }

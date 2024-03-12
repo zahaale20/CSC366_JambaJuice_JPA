@@ -11,7 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity  // indicates that this class maps to a database table
-public class Associate extends Employee {
+public class Associate extends Employee implements java.io.Serializable {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(

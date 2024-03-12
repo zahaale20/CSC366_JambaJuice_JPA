@@ -10,15 +10,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity  // indicates that this class maps to a database table
-public class LocalManager extends Employee {
-    @Column(name="localManagerID", unique = true)
+public class LocalManager extends Employee implements java.io.Serializable {
+    @Column(name="localManagerID")
     private Long localManagerID;
 
     @Column(name="restaurantID")
     private Long restaurantID;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "regionalManagerID", referencedColumnName = "regionalManagerID")
+    @JoinColumn(name = "regionalManagerID", referencedColumnName = "id")
     private RegionalManager regionalManager;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)

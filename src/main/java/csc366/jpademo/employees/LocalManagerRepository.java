@@ -16,7 +16,7 @@ public interface LocalManagerRepository extends JpaRepository<LocalManager, Long
 
     @Query("SELECT lm FROM LocalManager lm WHERE :associate MEMBER OF lm.associates")
     List<LocalManager> findByAssociate(@Param("associate") Associate associate);
-//
-//    @Query("SELECT lm FROM LocalManager lm WHERE lm.regionalManager = :regionalManager")
-//    List<LocalManager> findByRegionalManager(@Param("regionalManager") RegionalManager regionalManager);
+
+    @Query("SELECT lm FROM LocalManager lm WHERE lm.regionalManager = :regionalManager")
+    List<LocalManager> findByRegionalManager(@Param("regionalManager") RegionalManager regionalManager);
 }

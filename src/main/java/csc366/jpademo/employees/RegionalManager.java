@@ -8,10 +8,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity  // indicates that this class maps to a database table
-public class RegionalManager extends Employee {
-    @NotNull
-    @Column(name = "regionalManagerID", unique = true)
-    private Long regionalManagerID;
+public class RegionalManager extends Employee implements java.io.Serializable {
+    @Column(name = "id")
+    private Long id;
 
     @Column(name="region")
     private String region;
@@ -25,26 +24,26 @@ public class RegionalManager extends Employee {
 
     public RegionalManager() {
         Random random = new Random();
-        this.regionalManagerID = random.nextLong();
+        this.id = random.nextLong();
         this.localManagers = new HashSet<>();
     }
 
     public RegionalManager(String region)
     {
         Random random = new Random();
-        this.regionalManagerID = random.nextLong();
+        this.id = random.nextLong();
         this.region = region;
         this.localManagers = new HashSet<>();
     }
 
-    public Long getRegionalManagerID() { return regionalManagerID; }
+    public Long getid() { return id; }
     public String getRegion() { return region; }
     public BoardOfDirectors getReportingBoard() { return boardOfDirectors; }
     public Set<LocalManager> getLocalManagers() {
         return localManagers;
     }
 
-    public void setRegionalManagerID(Long regionalManagerID) { this.regionalManagerID = regionalManagerID; }
+    public void setid(Long id) { this.id = id; }
     public void setRegion(String region) { this.region = region; }
     public void setReportingBoard(BoardOfDirectors boardOfDirectors) { this.boardOfDirectors = boardOfDirectors; }
     public void addLocalManager(LocalManager localManager) {
@@ -62,7 +61,7 @@ public class RegionalManager extends Employee {
 
     public String RegionalManagertoString() {
         StringJoiner sj = new StringJoiner("," , RegionalManager.class.getSimpleName() + "[" , "]");
-        sj.add(this.regionalManagerID.toString()).add(region);
+        sj.add(this.id.toString()).add(region);
         return this.toString() + sj;
     }
 
@@ -70,11 +69,11 @@ public class RegionalManager extends Employee {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof RegionalManager)) return false;
-        return this.regionalManagerID != null && this.regionalManagerID.equals(((RegionalManager) o).regionalManagerID);
+        return this.id != null && this.id.equals(((RegionalManager) o).id);
     }
 
     @Override
     public int hashCode() {
-        return this.regionalManagerID.hashCode();
+        return this.id.hashCode();
     }
 }
