@@ -17,67 +17,78 @@ public class TaxBracket {
     @Column(name="bracket_end", nullable = false)
     private Double bracketEnd;
 
+    //this table won't be written or changed as often as others;
+    //therefore, we can get away with lazy eval
+    //additionally, the state_id will never change after write
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "state_id", nullable = false)
+    private csc366.jpademo.customers.State state;
 
-    // TODO :
-    // add incomeTaxProgessiveID ??
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "drinkID", nullable = false)
-    private csc366.jpademo.customers.Drink drink;
-
-
-
-
-    public TaxBracket() {}
-
-    public TaxBracket(String abbreviation, String name, Double salesTaxPercent) {
-        this.abbreviation = abbreviation;
-        this.name = name;
-        this.salesTaxPercent = salesTaxPercent;
+    public TaxBracket(Long taxBracketID, Double bracketStart, Double bracketEnd, State state) {
+        this.taxBracketID = taxBracketID;
+        this.bracketStart = bracketStart;
+        this.bracketEnd = bracketEnd;
+        this.state = state;
     }
 
-    // Getters and setters
-    public Long getStateID() {
-        return stateID;
+    public Long getTaxBracketID() {
+        return taxBracketID;
     }
 
-    public void setStateID(Long stateID) {
-        this.stateID = stateID;
+    public void setTaxBracketID(Long taxBracketID) {
+        this.taxBracketID = taxBracketID;
     }
 
-    public String getAbbreviation() {
-        return abbreviation;
+    public Double getBracketStart() {
+        return bracketStart;
     }
 
-    public void setAbbreviation(String abbreviation) {
-        this.abbreviation = abbreviation;
+    public void setBracketStart(Double bracketStart) {
+        this.bracketStart = bracketStart;
     }
 
-    public String getName() {
-        return name;
+    public Double getBracketEnd() {
+        return bracketEnd;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBracketEnd(Double bracketEnd) {
+        this.bracketEnd = bracketEnd;
     }
 
-    public Double getSalesTaxPercent() {
-        return salesTaxPercent;
+    public State getState() {
+        return state;
     }
 
-    public void setSalesTaxPercent(Double salesTaxPercent) {
-        this.salesTaxPercent = salesTaxPercent;
+    public void setState(State state) {
+        this.state = state;
     }
 
     @Override
     public String toString() {
-        StringJoiner sj = new StringJoiner(",", TaxBracket.class.getSimpleName() + "[", "]");
-        sj.add(stateID.toString()).add(abbreviation).add(name).add(salesTaxPercent.toString());
+        StringJoiner sj = new StringJoiner(",", State.class.getSimpleName() + "[", "]");
+        sj.add(taxBracketID.toString()).add(bracketStart.toString()).add(bracketEnd.toString()).add(state.toString());
         return sj.toString();
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TaxBracket that = (TaxBracket) o;
+
+        if (!taxBracketID.equals(that.taxBracketID)) return false;
+        if (!bracketStart.equals(that.bracketStart)) return false;
+        if (!bracketEnd.equals(that.bracketEnd)) return false;
+        return state.equals(that.state);
+    }
+
+    @Override
     public int hashCode() {
-        return 366;
+        int result = taxBracketID.hashCode();
+        result = 31 * result + bracketStart.hashCode();
+        result = 31 * result + bracketEnd.hashCode();
+        result = 31 * result + state.hashCode();
+        return result;
     }
 }
