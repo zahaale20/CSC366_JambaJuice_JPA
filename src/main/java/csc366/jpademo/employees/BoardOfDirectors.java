@@ -21,16 +21,31 @@ public class BoardOfDirectors {
     @OneToMany(mappedBy = "boardOfDirectors", fetch = FetchType.EAGER) // Changed to EAGER fetching
     private Set<Director> directors = new HashSet<>();
 
-    @Column(name = "board_name", nullable = false)
+    @Column(name = "board_name")
     private String boardName;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "date_start", nullable = false)
+    @Column(name = "date_start")
     private Date dateStart;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "date_end", nullable = true)
+    @Column(name = "date_end")
     private Date dateEnd;
+
+    public BoardOfDirectors() {
+        this.owners = new HashSet<>();
+        this.directors = new HashSet<>();
+        this.regionalManagers = new HashSet<>();
+    }
+
+    public BoardOfDirectors(String boardName, Date dateStart) {
+        this.boardName = boardName;
+        this.dateStart = dateStart;
+
+        this.owners = new HashSet<>();
+        this.directors = new HashSet<>();
+        this.regionalManagers = new HashSet<>();
+    }
 
     public Long getBoardID() {
         return boardID;
