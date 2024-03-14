@@ -40,13 +40,13 @@ public class Transaction {
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
-    @ManyToMany(
+    @ManyToOne(
             targetEntity = Ingredient.class,
             cascade = CascadeType.PERSIST,
             fetch = FetchType.LAZY
     )
     @JoinColumn(name = "ingredient_id")
-    private List<Ingredient> ingredients = new ArrayList<>();
+    private Ingredient ingredient;
 
     @ManyToOne(
             targetEntity = Restaurant.class,
@@ -109,30 +109,30 @@ public class Transaction {
         return supplyContract;
     }
 
-    public List<Ingredient> getIngredients() {
-        return ingredients;
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
-    public void addIngredient(Ingredient ingredient) {
-        this.ingredients.add(ingredient);
-        ingredient.addNonRecursiveTransaction(this);
+    public void setResturant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+        restaurant.addTransaction(this);
     }
 
-    public void addNonRecursiveIngredient(Ingredient ingredient) {
-        this.ingredients.add(ingredient);
+    public void removeResturant(Restaurant restaurant) {
+        this.restaurant = null;
+        restaurant.removeTransaction(this);
     }
 
-    public void removeIngredient(Ingredient ingredient) {
-        this.ingredients.remove(ingredient);
-        ingredient.removeNonRecursiveTransaction(this);
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void removeNonRecursiveIngredient(Ingredient ingredient) {
-        this.ingredients.remove(ingredient);
+    public Ingredient getIngredient() {
+        return ingredient;
     }
 
     public void addSupplier(Supplier supplier) {
@@ -168,7 +168,7 @@ public class Transaction {
     public String toString() {
         // TODO: Add new relations here
         StringJoiner sj = new StringJoiner("," , SupplyContract.class.getSimpleName() + "[" , "]");
-        sj.add(id.toString()).add(String.valueOf(numCase)).add(notes).add(String.valueOf(supplyContract)).add(String.valueOf(supplier)).add("ingredients="+String.valueOf(ingredients));
+        sj.add(id.toString()).add(String.valueOf(numCase)).add(notes).add(String.valueOf(supplyContract)).add(String.valueOf(supplier)).add("ingredients="+String.valueOf(ingredient));
         return sj.toString();
     }
 

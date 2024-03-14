@@ -81,20 +81,12 @@ public class Ingredient {
 
     public void addTransaction(Transaction transaction) {
         transactions.add(transaction);
-        transaction.addNonRecursiveIngredient(this);
-    }
-
-    public void addNonRecursiveTransaction(Transaction transaction) {
-        transactions.add(transaction);
+        transaction.setIngredient(this);
     }
 
     public void removeTransaction(Transaction transaction) {
         transactions.remove(transaction);
-        transaction.removeNonRecursiveIngredient(this);
-    }
-
-    public void removeNonRecursiveTransaction(Transaction transaction) {
-        transactions.remove(transaction);
+        transaction.setIngredient(null);
     }
 
     @Override
