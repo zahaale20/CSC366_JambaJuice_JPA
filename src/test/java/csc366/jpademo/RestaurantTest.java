@@ -69,8 +69,8 @@ public class RestaurantTest {
 	private RegionalManager regionalManager2 = new RegionalManager();
 	private State state = new State("CA", "California", 99.99);
 	private final Customer customer = new Customer("Bob Jones", "1234567890");
-	private CustomerReceipt customerReceipt = new CustomerReceipt(20.00, new Date(), 15.0, customer, state);
-	private Restaurant restaurant = new Restaurant("2 Grand Ave", state, localManager, customerReceipt);
+	private Restaurant restaurant = new Restaurant("2 Grand Ave", state, localManager);
+	private CustomerReceipt customerReceipt = new CustomerReceipt(20.00, new Date(), 15.0, restaurant, customer, state);
 
 	private void regionalManagerSetUp() {
 		regionalManager.setFirstName("Regional");
@@ -178,9 +178,9 @@ public class RestaurantTest {
 
 		stateRepository.saveAndFlush(state);
 		customerRepository.saveAndFlush(customer);
-		customerReceiptRepository.saveAndFlush(customerReceipt);
 
 		restaurantRepository.saveAndFlush(restaurant);
+		customerReceiptRepository.saveAndFlush(customerReceipt);
 	}
 
 	@Test

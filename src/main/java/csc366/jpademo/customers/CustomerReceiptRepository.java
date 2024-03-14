@@ -19,6 +19,8 @@ public interface CustomerReceiptRepository extends JpaRepository<CustomerReceipt
 
     List<CustomerReceipt> findByTax(Double tax);
 
+    List<CustomerReceipt> findByRestaurant(csc366.jpademo.Restaurant restaurant);
+
     List<CustomerReceipt> findByCustomer(csc366.jpademo.customers.Customer customer);
 
     List<CustomerReceipt> findByState(csc366.jpademo.customers.State state);
@@ -49,6 +51,11 @@ public interface CustomerReceiptRepository extends JpaRepository<CustomerReceipt
 
     @Modifying
     @Transactional
+    @Query("UPDATE CustomerReceipt cr SET cr.restaurant = :newRestaurant WHERE cr.customerReceiptID = :customerReceiptID")
+    void updateRestaurant(@Param("customerReceiptID") Long customerReceiptID, @Param("newRestaurant") csc366.jpademo.Restaurant restaurant);
+
+    @Modifying
+    @Transactional
     @Query("UPDATE CustomerReceipt cr SET cr.customer = :newCustomer WHERE cr.customerReceiptID = :customerReceiptID")
     void updateCustomer(@Param("customerReceiptID") Long customerReceiptID, @Param("newCustomer") csc366.jpademo.customers.Customer newCustomer);
 
@@ -66,6 +73,11 @@ public interface CustomerReceiptRepository extends JpaRepository<CustomerReceipt
     @Transactional
     @Query("DELETE FROM CustomerReceipt cr WHERE cr.customer = :customer")
     void deleteByCustomer(@Param("customer") csc366.jpademo.customers.Customer customer);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM CustomerReceipt cr WHERE cr.restaurant = :restaurant")
+    void deleteByRestaurant(@Param("restaurant") csc366.jpademo.Restaurant restaurant);
 
 
 }

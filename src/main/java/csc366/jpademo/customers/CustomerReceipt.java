@@ -25,6 +25,10 @@ public class CustomerReceipt {
     private Double tax;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurantID", nullable = false)
+    private csc366.jpademo.Restaurant restaurant;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customerID", nullable = false)
     private csc366.jpademo.customers.Customer customer;
 
@@ -35,10 +39,11 @@ public class CustomerReceipt {
 
     public CustomerReceipt() {}
 
-    public CustomerReceipt(Double total, Date dateTime, Double tax, csc366.jpademo.customers.Customer customer, csc366.jpademo.customers.State state) {
+    public CustomerReceipt(Double total, Date dateTime, Double tax, csc366.jpademo.Restaurant restaurant, csc366.jpademo.customers.Customer customer, csc366.jpademo.customers.State state) {
         this.total = total;
         this.dateTime = dateTime;
         this.tax = tax;
+        this.restaurant = restaurant;
         this.customer = customer;
         this.state = state;
     }
@@ -76,6 +81,14 @@ public class CustomerReceipt {
         this.tax = tax;
     }
 
+    public csc366.jpademo.Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(csc366.jpademo.Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
     public csc366.jpademo.customers.Customer getCustomer() {
         return customer;
     }
@@ -95,7 +108,7 @@ public class CustomerReceipt {
     @Override
     public String toString() {
         StringJoiner sj = new StringJoiner(",", CustomerReceipt.class.getSimpleName() + "[", "]");
-        sj.add(customerReceiptID.toString()).add(total.toString()).add(dateTime.toString()).add(tax.toString()).add(customer.toString()).add(state.toString());
+        sj.add(customerReceiptID.toString()).add(total.toString()).add(dateTime.toString()).add(tax.toString()).add(restaurant.toString()).add(customer.toString()).add(state.toString());
         return sj.toString();
     }
 

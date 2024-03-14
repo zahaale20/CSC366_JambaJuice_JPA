@@ -38,21 +38,25 @@ public class Restaurant {
     )
     private List<LocalManager> localManagers = new ArrayList<>();
 
-    @ManyToOne(
+    //@ManyToOne(
+    //        targetEntity = CustomerReceipt.class,
+     //       cascade = CascadeType.PERSIST,
+     //       fetch = FetchType.LAZY
+    //)
+    @OneToMany(
             targetEntity = CustomerReceipt.class,
             cascade = CascadeType.PERSIST,
-            fetch = FetchType.LAZY
+            fetch = FetchType.LAZY,
+            mappedBy = "restaurant"
     )
-    @JoinColumn(name = "customer_receipt_id")
-    private CustomerReceipt customerReceipt;
+    private List<CustomerReceipt> customerReceipt = new ArrayList();
 
     public Restaurant() {}
 
-    public Restaurant(String address, State state, LocalManager localManager, CustomerReceipt customerReceipt) {
+    public Restaurant(String address, State state, LocalManager localManager) {
         this.address = address;
         this.state = state;
         this.localManagers.add(localManager);
-        this.customerReceipt = customerReceipt;
     }
 
     public Long getId() {
@@ -67,7 +71,7 @@ public class Restaurant {
         return address;
     }
 
-    public CustomerReceipt getCustomerReceipt() {
+    public List<CustomerReceipt> getCustomerReceipt() {
         return customerReceipt;
     }
 
