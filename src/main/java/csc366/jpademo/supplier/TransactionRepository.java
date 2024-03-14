@@ -14,6 +14,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>{
     @Query("from Transaction s where s.supplier.firstName = :name or s.supplier.lastName = :name")
     Transaction findBySupplierName(@Param("name") String name);
 
+    @Query("from Transaction s where s.restaurant.address = :address")
+    Transaction findByRestaurantAddress(@Param("address") String address);
+
 //    @Modifying
 //    @Query("update Transaction t set t.numCase = :newCase where t.numCase = :oldCase")
 //    void updateCost(@Param("oldCost") double oldCase, @Param("newCost") double newCase);

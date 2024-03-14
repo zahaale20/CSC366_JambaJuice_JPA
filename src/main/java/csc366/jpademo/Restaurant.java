@@ -3,6 +3,8 @@ package csc366.jpademo;
 import csc366.jpademo.customers.CustomerReceipt;
 import csc366.jpademo.customers.State;
 import csc366.jpademo.employees.LocalManager;
+import csc366.jpademo.supplier.Transaction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -51,6 +53,14 @@ public class Restaurant {
     )
     private List<CustomerReceipt> customerReceipt = new ArrayList();
 
+    @OneToMany(
+            targetEntity = Transaction.class,
+            cascade = CascadeType.PERSIST,
+            fetch = FetchType.LAZY,
+            mappedBy = "restaurant"
+    )
+    private List<Transaction> transactions = new ArrayList<>();
+
     public Restaurant() {}
 
     public Restaurant(String address, State state, LocalManager localManager) {
@@ -82,6 +92,16 @@ public class Restaurant {
     public void addLocalManager(LocalManager localManager) {
         this.localManagers.add(localManager);
         localManager.setRestaurant(this);
+    }
+
+    public void addTransaction(Transaction transaction) {
+        this.transactions.add(transaction);
+        transaction.setRestaurant(this);
+    }
+
+    public void removeTransaction(Transaction transaction) {
+        this.transactions.remove(transaction);
+        transaction.removeResturant(this);
     }
 
     public void removeLocalManger(LocalManager localManager) {
