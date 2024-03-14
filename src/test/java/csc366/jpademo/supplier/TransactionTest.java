@@ -86,9 +86,10 @@ public class TransactionTest {
 
 	private final Customer customer = new Customer("Bob Jones", "1234567890");
 	private State state = new State("CA", "California", 99.99);
-	private CustomerReceipt customerReceipt = new CustomerReceipt(20.00, new Date(), 15.0, customer, state);
 
-	private final Restaurant restaurant = new Restaurant("2 Grand Ave", state,localManager, customerReceipt);
+	private final Restaurant restaurant = new Restaurant("2 Grand Ave", state,localManager);
+	private CustomerReceipt customerReceipt = new CustomerReceipt(20.00, new Date(), 15.0, restaurant, customer, state);
+
 	private final Supplier supplier = new Supplier("Bob", "Last", "1234567890", "blast@calpoly.edu");
 	private final SupplyContract supplyContract = new SupplyContract(10.99, "some description");
 	private final Transaction transaction = new Transaction(5, "some notes");
@@ -153,8 +154,9 @@ public class TransactionTest {
 
 		stateRepository.saveAndFlush(state);
 		customerRepository.saveAndFlush(customer);
-		customerReceiptRepository.saveAndFlush(customerReceipt);
+		
 		restaurantRepository.saveAndFlush(restaurant);
+		customerReceiptRepository.saveAndFlush(customerReceipt);
 
 		transactionRepository.saveAndFlush(transaction);
 
